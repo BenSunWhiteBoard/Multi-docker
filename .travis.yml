@@ -1,0 +1,25 @@
+sudo: require
+services:
+    - docker
+
+before_install:
+    - docker build -t ben/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+    - docker run -e CI ben/react-test npm test
+
+after_success:
+    - docker build -t ben/complex-client ./client
+    - docker build -t ben/complex-nginx ./nginx
+    - docker build -t ben/complex-server ./server
+    - docker build -t ben/complex-worker ./worker
+    # log in docker CLI 
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+    # take images and push to docker hub
+    - docker push ben/complex-client
+    - docker push ben/complex-nginx 
+    - docker push ben/complex-server 
+    - docker push ben/complex-worker 
+
+language: generic
+
