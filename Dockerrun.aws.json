@@ -1,0 +1,39 @@
+{
+    "AWSEBDockerrunVersion": 2,
+    "containerDefinitions": [
+        {
+            "name": "client",
+            "image": "bentully2077/complex-client",
+            "hostname": "client",
+            "essential": "comment: if crush, not affect other docker image",
+            "essential": false             
+        },
+        {
+            "name": "server",
+            "image": "bentully2077/complex-server",
+            "hostname": "api",
+            "essential": false    
+        },
+        {
+            "name": "worker",
+            "image": "bentully2077/complex-worker",
+            "hostname": "worker",
+            "essential": false  
+        },
+        {
+            "name": "nginx",
+            "image": "bentully2077/complex-nginx",
+            "hostname": "nginx",
+            "essential": true,
+            "portMappings": [
+                {
+                    "hostPort": 80,
+                    "containerPort": 80
+                }
+            ],
+            "links": ["client","server"]
+        }
+
+
+    ]
+}
