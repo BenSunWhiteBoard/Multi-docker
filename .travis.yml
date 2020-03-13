@@ -6,7 +6,7 @@ before_install:
     - docker build -t bentully2077/react-test -f ./client/Dockerfile.dev ./client
 
 script:
-    - docker run -e CI bentully2077/react-test npm test
+    - docker run -e CI=true bentully2077/react-test npm run test
 
 after_success:
     - docker build -t bentully2077/complex-client ./client
@@ -24,11 +24,11 @@ after_success:
 deploy:
     edge: true
     provider: elasticbeanstalk
-    region: us-east-2
-    app: multi-docker
-    env: MultiDocker-env
-    bucket_name: elasticbeanstalk-us-east-2-853813081120
-    bucket_path: docker-multi
+    region: "us-east-2"
+    app: "multi-docker"
+    env: "MultiDocker-env"
+    bucket_name: "elasticbeanstalk-us-east-2-853813081120"
+    bucket_path: "docker-multi"
     on:
         branch: master                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
     access_key_id: $AWS_ACCESS_KEY
